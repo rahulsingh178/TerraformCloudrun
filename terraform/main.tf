@@ -47,6 +47,12 @@ resource "google_project_iam_member" "deployer_serviceusage" {
   member  = "serviceAccount:github-actions-deployer@testterraform-507511.iam.gserviceaccount.com"
 }
 
+resource "google_project_iam_member" "deployer_iam_admin" {
+  project = var.project_id
+  role    = "roles/resourcemanager.projectIamAdmin"
+  member  = "serviceAccount:github-actions-deployer@testterraform-507511.iam.gserviceaccount.com"
+}
+
 resource "google_project_service" "iam" {
   service            = "iam.googleapis.com"
   disable_on_destroy = false
@@ -67,3 +73,4 @@ resource "google_project_service" "cloudresourcemanager" {
   service            = "cloudresourcemanager.googleapis.com"
   disable_on_destroy = false
 }
+
