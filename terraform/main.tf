@@ -41,6 +41,12 @@ resource "google_cloud_run_v2_service_iam_member" "public_access" {
   member   = "allUsers"
 }
 
+resource "google_project_iam_member" "deployer_serviceusage" {
+  project = var.project_id
+  role    = "roles/serviceusage.serviceUsageAdmin"
+  member  = "serviceAccount:github-actions-deployer@testterraform-507511.iam.gserviceaccount.com"
+}
+
 resource "google_project_service" "iam" {
   service            = "iam.googleapis.com"
   disable_on_destroy = false
@@ -53,5 +59,11 @@ resource "google_project_service" "iamcredentials" {
 
 resource "google_project_service" "sts" {
   service            = "sts.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "cloudresourcemanager" {
+  project            = var.project_id
+  service            = "cloudresourcemanager.googleapis.com"
   disable_on_destroy = false
 }
